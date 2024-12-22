@@ -56,7 +56,7 @@ The algorithm it uses to enable units is very straightforward:
 
 ### System Updates
 
-The steamos update mechanism does not like systemd-sysext to be running, as it creates a read-only overlayfs on `/usr`. To solve this problem, `steamos-extension-loader.service` unloads itself when `rauc.service` (the update service) is started. Unfortunately, `rauc.service` does not unload itself until reboot, which means all extensions are unloaded until reboot. Updates that occur during boot-up do not conflict with systemd-sysext, as they occur earlier in the boot process.
+The steamos update mechanism does not like systemd-sysext to be running, as it creates a read-only overlayfs on `/usr`. To solve this problem, `systemd-sysext.service` unloads itself when `rauc.service` (the update service) is started. Unfortunately, `rauc.service` does not unload itself until reboot, which means all extensions are unloaded until reboot. Updates that occur during boot-up do not conflict with systemd-sysext, as they occur earlier in the boot process.
 
 ## Extensions
 
