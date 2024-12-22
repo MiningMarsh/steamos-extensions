@@ -14,7 +14,7 @@ The rest of thos README.md will focus on the specific differences needed to use 
 
 ## steamos-extension-loader
 
-The only required extension is provided by the extension `steamos-extension-loader`.
+The only required extension is provided by `steamos-extension-loader`.
 
 To install the loader, place the `steamos-extension-loader.raw` file in `/var/lib/extensions`.
 
