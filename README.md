@@ -116,7 +116,7 @@ This extension updates all installed user and system flatpaks on a schedule.
 
 This extension hijacks the steam deck's zram configuration in an obtuse way. I'm not sure I'd recommend anyone else use it, it is almost a toy.
 
-This extension sets up a zram based swap that uses a third of the systms ram allocation, then it creates a second zram device with ext4 that is mounted in /home/deck/.zram and uses another third. Then, it bind mounts various directories (e.g., ~/.cache, the steam client appcache, the decky loader log direcetories, ...) into that zram device so that things like mesa cache updates get to skip the disk write. On shutdown, it synchronizes the ram cache to disk, and on next boot, will only buffer the changed files. I've seen this use around max 600MiB RAM, but after the cache is hot, it generally seems to cap out around 100MiB.
+This extension sets up a zram based swap that uses a third of the systms ram allocation, then it creates a second zram device with ext4 that is mounted in /home/deck/.zram and uses another third. Then, it bind mounts various directories (e.g., ~/.cache, the steam client appcache, the decky loader log direcetories, ...) into that zram device so that things like mesa cache updates get to skip the disk when writing. On shutdown, it synchronizes the ram cache to disk, and on next boot, will only buffer the changed files. I've seen this use around max 600MiB RAM, but after the cache is hot, it generally seems to cap out around 100MiB.
 
 
 The motivation for this extension is simply that btrfs seems to cause hangs under heavy write loads, so game updates would cause games to hitch for a second. This was an attempt to alleviate that.
