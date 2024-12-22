@@ -52,7 +52,7 @@ The algorithm it uses to enable units is very straightforward:
 
 1. Any system unit file starting with `steamos-extension-` is passed to `systemctl preset`. After that, it checks if the unit is enabled. If it is enabled, and it is not yet running, `steamos-extension-loader.service` starts the unit. This allows extension authors to decide which services and timers should be loaded by providing a correct systemd-preset file.
 
-2. User unit files are treated differently. Systemd does not have an equivalent to systemd preset for user units, so every single unit is simply passed to `systemctl enable --global`, so that they will be loaded during logon. To control what units are running, you must ensure a correct install target. If you have a service fired by a timer that shouldnt run otherwise, omit the entire `[Install]` section in the unit file.
+2. User unit files are treated differently. Systemd does not have an equivalent to systemd preset for user units, so every single unit is simply passed to `systemctl enable --global`, so that they will be loaded during logon. To control what units are running, you must ensure a correct install target. If you have a service fired by a timer that shouldn't run otherwise, omit the entire `[Install]` section in the unit file.
 
 ### System Updates
 
