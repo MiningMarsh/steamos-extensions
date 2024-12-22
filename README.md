@@ -120,3 +120,5 @@ This extension sets up a zram based swap that uses a third of the systms ram all
 
 
 The motivation for this extension is simply that btrfs seems to cause hangs under heavy write loads, so game updates would cause games to hitch for a second. This was an attempt to alleviate that.
+
+This extension significantly slows down shutdowns and system updates, as they have to wait for the ram cache to synchronize to disk first.
