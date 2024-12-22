@@ -6,7 +6,7 @@ modifications that supoort filesystem overlays and automatically enabled systemd
 
 ## systemd-sysext
 
-The mechanism this repo provides is little more than a supplement to systemd's builtin `systemd-sysext` mechanism. Thr primary addition this mechanism adds is a way to automaticslly load systemd units from installed `systemd-sysext`extensions, whereas normal extensions require users to manually enable any units they wish to use, which won't survive upgrades.
+The mechanism this repo provides is little more than a supplement to systemd's builtin `systemd-sysext` mechanism. Thr primary addition this mechanism adds is a way to automatically load systemd units from installed `systemd-sysext`extensions, whereas normal extensions require users to manually enable any units they wish to use, which won't survive upgrades.
 
 For documentation on how to build systemd-sysext extensions, please see here: https://www.freedesktop.org/software/systemd/man/latest/systemd-sysext.html
 
@@ -78,7 +78,7 @@ This extension regularly installs and updates Boxtron, Luxtorpeda, Roberta, and 
 
 ### steamos-extension-disable-mitigation
 
-Thie extension adds `mitigations=off` to SteamOS' boot config. It is debatable whether this improves performance, so treat this extension with caution. This also *definitely* makes your installation less secure.
+This extension adds `mitigations=off` to SteamOS' boot config. It is debatable whether this improves performance, so treat this extension with caution. This also *definitely* makes your installation less secure.
 
 I recommend only using this extension if you understand spectre-like vulnerabilities and can perform your own risk and threat assessment.
 
