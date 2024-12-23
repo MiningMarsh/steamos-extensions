@@ -52,7 +52,7 @@ The algorithm it uses to enable units is very straightforward:
 
 1. Any system unit file starting with `steamos-extension-` is passed to `systemctl preset`. After that, it checks if the unit is enabled. If it is enabled, and it is not yet running, `steamos-extension-loader.service` starts the unit. This allows extension authors to decide which services and timers should be loaded by providing a correct systemd-preset file.
 
-2. User unit files are treated differently. Systemd does not have an equivalent to systemd preset for user units, so every single unit is simply passed to `systemctl enable --global`, so that they will be loaded during logon. To control what units are running, you must ensure a correct install target. If you have a service fired by a timer that shouldn't run otherwise, omit the entire `[Install]` section in the unit file.
+2. User unit files are treated differently. Systemd does not have an equivalent to systemd preset for user units, thus every single unit is simply passed to `systemctl enable --global`, so that they will be loaded during logon. To control which units are running, you must ensure a correct install target. If you have a service fired by a timer that shouldn't run otherwise, omit the entire `[Install]` section in the unit file.
 
 ### System Updates
 
@@ -66,7 +66,7 @@ A number of example extensions that I personally use are included in this repo, 
 
 ### steamos-extension-balance-btrfs
 
-This extension ensures that any mounted btrfs filesystem has their `bg_reclaim_threshold` set to non-zero, so they will automatically balance themselves.
+This extension ensures that any mounted btrfs filesystem has their `bg_reclaim_threshold` set to non-zero, whoch causes them to automatically balance themselves.
 
 ### steamos-extension-clean-games
 
@@ -76,7 +76,7 @@ This extension automatically removes any game directory from Steam's common inst
 
 This extension regularly installs and updates Boxtron, Luxtorpeda, Roberta, and Proton GE. It always installs the latest version, and it changes their labels to "DosBox", "Source Ports", "ScummVM, and "Proton GE" respectively. In particular, you can set games to use "Proton GE" by default, and they will always use the latest version.
 
-### steamos-extension-disable-mitigation
+### steamos-extension-disable-mitigations
 
 This extension adds `mitigations=off` to SteamOS' boot config. It is debatable whether this improves performance, so treat this extension with caution. This also *definitely* makes your installation less secure.
 
@@ -119,6 +119,6 @@ This extension hijacks the steam deck's zram configuration in an obtuse way. I'm
 This extension sets up a zram based swap that uses a third of the systms ram allocation, then it creates a second zram device with ext4 that is mounted in /home/deck/.zram and uses another third. Then, it bind mounts various directories (e.g., ~/.cache, the steam client appcache, the decky loader log direcetories, ...) into that zram device so that things like mesa cache updates get to skip the disk when writing. On shutdown, it synchronizes the ram cache to disk, and on next boot, will only buffer the changed files. I've seen this use around max 600MiB RAM, but after the cache is hot, it generally seems to cap out around 100MiB.
 
 
-The motivation for this extension is simply that btrfs seems to cause hangs under heavy write loads, so game updates would cause games to hitch for a second. This was an attempt to alleviate that.
+The motivation for this extension was that btrfs seemed to cause hangs under heavy write loads, which would cause games to hitch for a second when other games were being updated. This was an attempt to alleviate that.
 
 This extension significantly slows down shutdowns and system updates, as they have to wait for the ram cache to synchronize to disk first.
