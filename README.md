@@ -74,7 +74,7 @@ This extension automatically removes any game directory from Steam's common inst
 
 ### steamos-extension-compat-tools
 
-This extension regularly installs and updates Boxtron, Luxtorpeda, Roberta, and Proton GE. It always installs the latest version, and it changes their labels to "DosBox", "Source Ports", "ScummVM, and "Proton GE" respectively. In particular, you can set games to use "Proton GE" by default, and they will always use the latest version.
+This extension regularly installs and updates Boxtron, Luxtorpeda, Roberta, and Proton GE. It always installs the latest version, and it changes their labels to "DosBox", "Source Ports", "ScummVM", and "Proton GE" respectively. In particular, you can set games to use "Proton GE" by default, and they will always use the latest version.
 
 ### steamos-extension-disable-mitigations
 
