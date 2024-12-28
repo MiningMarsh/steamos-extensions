@@ -10,7 +10,7 @@ The mechanism this repo provides is little more than a supplement to systemd's b
 
 For documentation on how to build systemd-sysext extensions, please see here: https://www.freedesktop.org/software/systemd/man/latest/systemd-sysext.html
 
-The rest of thos README.md will focus on the specific differences needed to use this extension system wrapper.
+The rest of this README.md will focus on the specific differences needed to use this extension system wrapper.
 
 ## steamos-extension-loader
 
