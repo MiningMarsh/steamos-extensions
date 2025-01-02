@@ -110,7 +110,7 @@ If you use decky loader, this extension will automatically update it when an upd
 
 ### steamos-extension-update-flatpak
 
-This extension updates all installed user and system flatpaks on a schedule.
+This extension repairs and updates all installed user and system flatpaks on a schedule. It also removes any unused dependencies after updates.
 
 ### steamos-extension-zram
 
