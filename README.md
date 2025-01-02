@@ -82,6 +82,8 @@ This extension adds `mitigations=off` to SteamOS' boot config. It is debatable w
 
 I recommend only using this extension if you understand spectre-like vulnerabilities and can perform your own risk and threat assessment.
 
+This extension will cause reboots after updates to take longer, as it needs to reboot the system an additional time after applying the boot configuration changes.
+
 ### steamos-extension-nohang
 
 This extension installs `nohang` to help minimize system latency in low memory conditions.
