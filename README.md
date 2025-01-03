@@ -82,7 +82,7 @@ This extension adds `mitigations=off` to SteamOS' boot config. It is debatable w
 
 I recommend only using this extension if you understand spectre-like vulnerabilities and can perform your own risk and threat assessment.
 
-This extension will cause reboots after updates to take longer, as it needs to reboot the system an additional time after applying the boot configuration changes.
+This extension will cause an additional reboot after updates are applied. When used together with performance-tuning, only one additional reboot will occur, not two.
 
 ### steamos-extension-nohang
 
@@ -98,9 +98,11 @@ This extension bundles a daemon that automatically sets the system TDP limit to 
 
 This should allow bursty games to run at 20w, while keeping sustained loads at 15w to prevent overheating.
 
-### steamos-extension-tune-power
+### steamos-extension-performance-tuning
 
-This extension runs `powertop --auto-tune`, then applies a few other power adjustments.
+This extension applies various performance tuning changes. Additionally, it installs a daemon that will change the CPU governor, NVMe parameters, etc. when the system transitions from on AC power to off AC power and vice-vsersa. When on AC power everything is pinned to a maximum performance setting. When off AC power, swttings are pinned to values that should give a good balance between performance and power savings.
+
+This extension changes some kernel command line parameters and will cause an additional reboot after updates are applied. When used together with disable-mitigations, only one additional reboot will occur, not two.
 
 ### steamos-extension-update-btrfs
 
