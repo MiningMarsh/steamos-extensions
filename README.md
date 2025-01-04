@@ -126,3 +126,7 @@ This extension sets up a zram based swap that uses a third of the systms ram all
 The motivation for this extension was that btrfs seemed to cause hangs under heavy write loads, which would cause games to hitch for a second when other games were being updated. This was an attempt to alleviate that.
 
 This extension significantly slows down shutdowns and system updates, as they have to wait for the ram cache to synchronize to disk first.
+
+### steamos-extension-retain-boot
+
+This extensiom sets SteamOS as the next boot entry after each reboot. This can be useful when dual booting if the other OS likes to mess with the bootorder.
