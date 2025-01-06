@@ -1,4 +1,4 @@
-# Steam Deck - A Permanent Modification Mechanism
+# A SteamOS Extension System and a Collection of SteamOS Extensions
 
 This repo documents and provides an example set of extensions that utilize the 
 `systemd-sysext` mechanism. This mechanism can be used to create permanent system
@@ -38,7 +38,7 @@ The `steamos-extension-loader` maintains its persistence in a fairly straightfor
 
 Secondly, it enables and runs the `steamos-extension-loader.service` unit if it is not already enabled and active.
 
-This service, among other things, will start and enable `steamos-extension-loader-installer.service` and `systemd-sysext.service`, thus ensuring that updates to the loader get copied up into `/etc`.
+`steamos-extension-loader.service`, among other things, will start and enable `steamos-extension-loader-installer.service` and `systemd-sysext.service`, thus ensuring that updates to the loader get copied up into `/etc`.
 
 Finally, the file placed in `/etc/atomic-update.d` ensures that none of the installed files are lost after a system update.
 
