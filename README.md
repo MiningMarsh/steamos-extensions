@@ -64,10 +64,6 @@ Installing additional extensions is as easy as placing them in `/var/lib/extensi
 
 A number of example extensions that I personally use are included in this repo, with explanations of what they do in the following sections.
 
-### steamos-extension-balance-btrfs
-
-This extension ensures that any mounted btrfs filesystem has their `bg_reclaim_threshold` set to non-zero, whoch causes them to automatically balance themselves.
-
 ### steamos-extension-clean-games
 
 This extension automatically removes any game directory from Steam's common install path if they are not tracked by an installed package (game). It also removes any shadercache for missing packages, preventing size buildup of shadercache.
@@ -100,7 +96,7 @@ This should allow bursty games to run at 20w, while keeping sustained loads at 1
 
 ### steamos-extension-performance-tuning
 
-This extension applies various performance tuning changes. Additionally, it installs a daemon that will change the CPU governor, NVMe parameters, etc. when the system transitions from on AC power to off AC power and vice-vsersa. When on AC power everything is pinned to a maximum performance setting. When off AC power, swttings are pinned to values that should give a good balance between performance and power savings.
+This extension applies various performance tuning changes. Additionally, it installs udev rules that will change the CPU governor, NVMe parameters, etc. when the system transitions from on AC power to off AC power and vice-vsersa. When on AC power everything is pinned to a maximum performance setting. When off AC power, settings are pinned to values that should give a good balance between performance and power savings.
 
 This extension changes some kernel command line parameters and will cause an additional reboot after updates are applied. When used together with disable-mitigations, only one additional reboot will occur, not two.
 
@@ -130,3 +126,7 @@ This extension significantly slows down shutdowns and system updates, as they ha
 ### steamos-extension-retain-boot
 
 This extensiom sets SteamOS as the next boot entry after each reboot. This can be useful when dual booting if the other OS likes to mess with the bootorder.
+
+### steamos-extension-irqbalance
+
+This extension installs and runs the `irqbalance` service, which automatically balances interrupts across CPU cores. It is configured to try and minimize the number of running cores in addition to balancing interrupts, to strike a better balance between power consumption and performance.
