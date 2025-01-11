@@ -2,11 +2,11 @@
 
 This repo documents and provides an example set of extensions that utilize the 
 `systemd-sysext` mechanism. This mechanism can be used to create permanent system
-modifications that supoort filesystem overlays and automatically enabled systemd unit files.
+modifications that support filesystem overlays and automatically enabled systemd unit files.
 
 ## systemd-sysext
 
-The mechanism this repo provides is little more than a supplement to systemd's builtin `systemd-sysext` mechanism. The primary addition this mechanism adds is a way to automatically load systemd units from installed `systemd-sysext`extensions, whereas normal extensions require users to manually enable any units they wish to use, which won't survive upgrades.
+The mechanism this repo provides is little more than a supplement to systemd's built-in `systemd-sysext` mechanism. The primary addition this mechanism adds is a way to automatically load systemd units from installed `systemd-sysext` extensions, whereas normal extensions require users to manually enable any units they wish to use, which won't survive upgrades.
 
 For documentation on how to build systemd-sysext extensions, please see here: https://www.freedesktop.org/software/systemd/man/latest/systemd-sysext.html
 
@@ -46,17 +46,17 @@ If persistence is ever lost, it should be enough to just repeat the installation
 
 ### Unit Files
 
-The loader, in addition to persistence, also ensures that services from other extensions are enabled and loaded. This is the advantage of `steamos-extension-loader`, as `systemd-sysext` provides no equivalent mechanism (at least as far as this author was able to determine, *please* correct me if I have overlooked anything here).
+The loader, in addition to persistence, also ensures that services from other extensions are enabled and loaded. This is the advantage of `steamos-extension-loader`, as `systemd-sysext` provides no equivalent mechanism (at least as far as this author was able to determine; *please* correct me if I have overlooked anything here).
 
 The algorithm it uses to enable units is very straightforward:
 
-1. Any system unit file starting with `steamos-extension-` is passed to `systemctl preset`. After that, it checks if the unit is enabled. If it is enabled, and it is not yet running, `steamos-extension-loader.service` starts the unit. This allows extension authors to decide which services and timers should be loaded by providing a correct systemd-preset file.
+1. Any system unit file starting with `steamos-extension-` is passed to `systemctl preset`. After that, it checks if the unit is enabled. If it is enabled and it is not yet running, `steamos-extension-loader.service` starts the unit. This allows extension authors to decide which services and timers should be loaded by providing a correct systemd-preset file.
 
-2. User unit files are treated differently. Systemd does not have an equivalent to systemd preset for user units, thus every single unit is simply passed to `systemctl enable --global`, so that they will be loaded during logon. To control which units are running, you must ensure a correct install target. If you have a service fired by a timer that shouldn't run otherwise, omit the entire `[Install]` section in the unit file.
+2. User unit files are treated differently. Systemd does not have an equivalent to systemd preset for user units; thus, every single unit is simply passed to `systemctl enable --global`, so that they will be loaded during logon. To control which units are running, you must ensure a correct install target. If you have a service fired by a timer that shouldn't run otherwise, omit the entire `[Install]` section in the unit file.
 
 ### System Updates
 
-The steamos update mechanism does not like systemd-sysext to be running, as it creates a read-only overlayfs on `/usr`. To solve this problem, `systemd-sysext.service` unloads itself when `rauc.service` (the update service) is started. Unfortunately, `rauc.service` does not unload itself until reboot, which means all extensions are unloaded until reboot. Updates that occur during boot-up do not conflict with systemd-sysext, as they occur earlier in the boot process.
+The SteamOS update mechanism does not like systemd-sysext to be running, as it creates a read-only overlayfs on `/usr`. To solve this problem, `systemd-sysext.service` unloads itself when `rauc.service` (the update service) is started. Unfortunately, `rauc.service` does not unload itself until reboot, which means all extensions are unloaded until reboot. Updates that occur during boot-up do not conflict with systemd-sysext, as they occur earlier in the boot process.
 
 ## Extensions
 
@@ -96,7 +96,7 @@ This should allow bursty games to run at 20w, while keeping sustained loads at 1
 
 ### steamos-extension-performance-tuning
 
-This extension applies various performance tuning changes. Additionally, it installs udev rules that will change the CPU governor, NVMe parameters, etc. when the system transitions from on AC power to off AC power and vice-vsersa. When on AC power everything is pinned to a maximum performance setting. When off AC power, settings are pinned to values that should give a good balance between performance and power savings.
+This extension applies various performance tuning changes. Additionally, it installs udev rules that will change the CPU governor, NVMe parameters, etc. when the system transitions from on AC power to off AC power and vice versa. When on AC power, everything is pinned to a maximum performance setting. When off AC power, settings are pinned to values that should give a good balance between performance and power savings.
 
 This extension changes some kernel command line parameters and will cause an additional reboot after updates are applied. When used together with disable-mitigations, only one additional reboot will occur, not two.
 
@@ -106,7 +106,7 @@ If you use `steamos-btrfs`, this extension will automatically update it on a sch
 
 ### steamos-extension-update-decky-loader
 
-If you use decky loader, this extension will automatically update it when an update is available. Be warned, it only supports the stable channel, and can't update plugins. Additionally, whenever an update occurs, the steam client will restart, returning you to the main menu. Your game will still be running and accessible.
+If you use Decky Loader, this extension will automatically update it when an update is available. Be warned, it only supports the stable channel, and can't update plugins. Additionally, whenever an update occurs, the Steam client will restart, returning you to the main menu. Your game will still be running and accessible.
 
 ### steamos-extension-update-flatpak
 
@@ -114,19 +114,19 @@ This extension repairs and updates all installed user and system flatpaks on a s
 
 ### steamos-extension-zram
 
-This extension hijacks the steam deck's zram configuration in an obtuse way. I'm not sure I'd recommend anyone else use it, it is almost a toy.
+This extension hijacks the Steam Deck's zram configuration in an obtuse way. I'm not sure I'd recommend anyone else use it; it is almost a toy.
 
-This extension sets up a zram based swap that uses a third of the systms ram allocation, then it creates a second zram device with ext4 that is mounted in /home/deck/.zram and uses another third. Then, it bind mounts various directories (e.g., ~/.cache, the steam client appcache, the decky loader log direcetories, ...) into that zram device so that things like mesa cache updates get to skip the disk when writing. On shutdown, it synchronizes the ram cache to disk, and on next boot, will only buffer the changed files. I've seen this use around max 600MiB RAM, but after the cache is hot, it generally seems to cap out around 100MiB.
+This extension sets up a zram-based swap that uses a third of the system's RAM allocation, then it creates a second zram device with ext4 that is mounted in /home/deck/.zram and uses another third. Then, it bind mounts various directories (e.g., ~/.cache, the Steam client appcache, the Decky Loader log directories, ...) into that zram device so that things like mesa cache updates get to skip the disk when writing. On shutdown, it synchronizes the RAM cache to disk, and on the next boot, will only buffer the changed files. I've seen this use around max 600 MiB RAM, but after the cache is hot, it generally seems to cap out around 100 MiB.
 
 
 The motivation for this extension was that btrfs seemed to cause hangs under heavy write loads, which would cause games to hitch for a second when other games were being updated. This was an attempt to alleviate that.
 
-This extension significantly slows down shutdowns and system updates, as they have to wait for the ram cache to synchronize to disk first.
+This extension significantly slows down shutdowns and system updates, as they have to wait for the RAM cache to synchronize to disk first.
 
 ### steamos-extension-retain-boot
 
-This extensiom sets SteamOS as the next boot entry after each reboot. This can be useful when dual booting if the other OS likes to mess with the bootorder.
+This extension sets SteamOS as the next boot entry after each reboot. This can be useful when dual booting if the other OS likes to mess with the boot order.
 
 ### steamos-extension-irqbalance
 
-This extension installs and runs the `irqbalance` service, which automatically balances interrupts across CPU cores. It is configured to try and minimize the number of running cores in addition to balancing interrupts, to strike a better balance between power consumption and performance.
+This extension installs and runs the `irqbalance` service, which automatically balances interrupts across CPU cores. It is configured to try and minimize the number of running cores in addition to balancing interrupts to strike a better balance between power consumption and performance.
