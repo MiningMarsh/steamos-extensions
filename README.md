@@ -130,3 +130,7 @@ This extension sets SteamOS as the next boot entry after each reboot. This can b
 ### steamos-extension-irqbalance
 
 This extension installs and runs the `irqbalance` service, which automatically balances interrupts across CPU cores. It is configured to try and minimize the number of running cores in addition to balancing interrupts to strike a better balance between power consumption and performance.
+
+### steamos-extension-preload
+
+This extension  installs the `preload` service. `preload` attempts to minimize system latency by pre-caching commonly loaded files. A state file will be left at `/var/lib/preload.state` if you uninstall this extension. The state file is minimal in size.
