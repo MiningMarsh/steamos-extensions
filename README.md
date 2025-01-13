@@ -133,4 +133,4 @@ This extension installs and runs the `irqbalance` service, which automatically b
 
 ### steamos-extension-preload
 
-This extension  installs the `preload` service. `preload` attempts to minimize system latency by pre-caching commonly loaded files. A state file will be left at `/var/lib/preload.state` if you uninstall this extension. The state file is minimal in size.
+This extension  installs the `preload` service. `preload` attempts to minimize system latency by pre-caching commonly loaded files. A state file will be left at `/var/lib/preload.state` if you uninstall this extension. The state file is minimal in size (under a megabyte typically).
