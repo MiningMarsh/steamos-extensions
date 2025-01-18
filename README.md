@@ -4,6 +4,12 @@ This repo documents and provides an example set of extensions that utilize the
 `systemd-sysext` mechanism. This mechanism can be used to create permanent system
 modifications that support filesystem overlays and automatically enabled systemd unit files.
 
+## HoloISO Support
+
+Most of these extensions have been tested to function against HoloISO. HoloISO is close enough to SteamOS in implementation that minimal levels of support code is needed to target both.
+
+All of these extensions assume that the player's username is `deck`, and a few won't function on HoloISO installs using a different username. Specific details about this are mentioned in the individual extension's documentation at the end of this README.
+
 ## systemd-sysext
 
 The mechanism this repo provides is little more than a supplement to systemd's built-in `systemd-sysext` mechanism. The primary addition this mechanism adds is a way to automatically load systemd units from installed `systemd-sysext` extensions, whereas normal extensions require users to manually enable any units they wish to use, which won't survive upgrades.
@@ -100,19 +106,29 @@ This extension bundles a daemon that automatically sets the system TDP limit to 
 
 This should allow bursty games to run at 20w, while keeping sustained loads at 15w to prevent overheating.
 
+This utility should not be used on any hardware except the steam deck! Most likely, it won't do anything, however, there is a small possibility that this daemon could set inappropriate TDP values for some other AMD SoC than the steam deck.
+
 ### steamos-extension-performance-tuning
 
 This extension applies various performance tuning changes. Additionally, it installs udev rules that will change the CPU governor, NVMe parameters, etc. when the system transitions from on AC power to off AC power and vice versa. When on AC power, everything is pinned to a maximum performance setting. When off AC power, settings are pinned to values that should give a good balance between performance and power savings.
 
 This extension changes some kernel command line parameters and will cause an additional reboot after updates are applied. When used together with disable-mitigations, only one additional reboot will occur, not two.
 
+This extension does not apply kernel command line performance tweaks on HoloISO if it is detected. The kernel parameters caused boot issues for this author, and have been set to only apply to SteamOS, where they function correctly.
+
 ### steamos-extension-update-btrfs
 
 If you use `steamos-btrfs`, this extension will automatically update it on a schedule.
 
+Don't use this extension with HoloISO. `steamos-btrfs` likely doesn't function correctly against HoloISO.
+
 ### steamos-extension-update-decky-loader
 
 If you use Decky Loader, this extension will automatically update it when an update is available. Be warned, it only supports the stable channel, and can't update plugins. Additionally, whenever an update occurs, the Steam client will restart, returning you to the main menu. Your game will still be running and accessible.
+
+Note that this extension cannot perform the initial Decky Loader install. The Decky Loader installation scripts do not appear to function for fresh installs when invoked directly from a root context.
+
+This extension only functions on HoloISO of the player's username is `deck`.
 
 ### steamos-extension-update-flatpak
 
@@ -129,9 +145,13 @@ The motivation for this extension was that btrfs seemed to cause hangs under hea
 
 This extension significantly slows down shutdowns and system updates, as they have to wait for the RAM cache to synchronize to disk first.
 
+This extension will only function on HoloISO if the player's username is `deck`.
+
 ### steamos-extension-retain-boot
 
 This extension sets SteamOS as the next boot entry after each reboot. This can be useful when dual booting if the other OS likes to mess with the boot order.
+
+This extensiom functions on HoloISO, but might choose the boot order incorrectly on systems dual booting HoloISO and SteamOS.
 
 ### steamos-extension-irqbalance
 
