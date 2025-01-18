@@ -39,22 +39,22 @@ systemctl enable --now steamos-extension-loader-installer.service
 
 ## How it Works
 
-The `steamos-extension-loader` has two purposes:
+`steamos-extension-loader` and `steamos-extension-loader-installer` have two purposes:
 
-1. It makes sure that system updates do not uninstall the service and supporting files used by it.
-2. It installs a boot service that loads any other installed extensions by making sure the appropriate unit files are enabled and running.
+1. They make sure that system updates do not uninstall their services and supporting files.
+2. They install a boot service that loads any other installed extensions by making sure the appropriate unit files are enabled and running.
 
 ### Persistence
 
-The `steamos-extension-loader` maintains its persistence in a fairly straightforward way. First, it checks `/etc/steamos-extension-loader`, `/etc/systemd/system/steamos-extension-loader.service` and `/etc/atomic-update.d/steamos-extension-loader.conf`, ensuring they have identical checksums to the files packaged in the extension. If they don't exist or have mismatching checksums, it copies the files it bundles into those locations.
+`steamos-extension-loader-installer` maintains its persistence in a fairly straightforward way. First, it checks `/etc/steamos-extension-loader`, `/etc/systemd/system/steamos-extension-loader.service` and `/etc/atomic-update.d/steamos-extension-loader.conf`, ensuring they have identical checksums to the files packaged in the extension. If they don't exist or have mismatching checksums, it copies the files it bundles into those locations.
 
-Secondly, it enables and runs the `steamos-extension-loader.service` unit if it is not already enabled and active.
+Secondly, `steamos-extension-loader-installer` enables and runs the `steamos-extension-loader.service` unit if it is not already enabled and active.
 
-`steamos-extension-loader.service`, among other things, will start and enable `steamos-extension-loader-installer.service` and `systemd-sysext.service`, thus ensuring that updates to the loader get copied up into `/etc`.
+`steamos-extension-loader.service`, among other things, will start and enable `steamos-extension-loader-installer.service` and `systemd-sysext.service`, thus ensuring that `steamos-extension-loader.raw` updates get copied up into `/etc`.
 
 Finally, the file placed in `/etc/atomic-update.d` ensures that none of the installed files are lost after a system update.
 
-If persistence is ever lost, it should be enough to just repeat the installation commands.
+If persistence is ever lost, it should be enough to re-run the installation commands.
 
 ### Unit Files
 
