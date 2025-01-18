@@ -26,7 +26,7 @@ Regardless, their source code can also be interrogated [here](https://github.com
 
 ## steamos-extension-loader
 
-The only required extension is provided by `steamos-extension-loader`.
+The only required extension is provided by `steamos-extension-loader.raw`.
 
 To install the loader, place the `steamos-extension-loader.raw` file in `/var/lib/extensions`.
 
@@ -39,16 +39,16 @@ systemctl enable --now steamos-extension-loader-installer.service
 
 ## How it Works
 
-`steamos-extension-loader` and `steamos-extension-loader-installer` have two purposes:
+`steamos-extension-loader.service` and `steamos-extension-loader-installer.service` have two purposes:
 
 1. They make sure that system updates do not uninstall their services and supporting files.
-2. They install a boot service that loads any other installed extensions by making sure the appropriate unit files are enabled and running.
+2. They install themselves as a boot service that loads any other installed extensions by making sure the appropriate unit files are enabled and running.
 
 ### Persistence
 
-`steamos-extension-loader-installer` maintains its persistence in a fairly straightforward way. First, it checks `/etc/steamos-extension-loader`, `/etc/systemd/system/steamos-extension-loader.service` and `/etc/atomic-update.d/steamos-extension-loader.conf`, ensuring they have identical checksums to the files packaged in the extension. If they don't exist or have mismatching checksums, it copies the files it bundles into those locations.
+`steamos-extension-loader-installer.service` maintains its persistence in a fairly straightforward way. First, it checks `/etc/steamos-extension-loader`, `/etc/systemd/system/steamos-extension-loader.service` and `/etc/atomic-update.d/steamos-extension-loader.conf`, ensuring they have identical checksums to the files packaged in the extension. If they don't exist or have mismatching checksums, it copies the bundled file into those locations.
 
-Secondly, `steamos-extension-loader-installer` enables and runs the `steamos-extension-loader.service` unit if it is not already enabled and active.
+Secondly, `steamos-extension-loader-installer.service` enables and runs the `steamos-extension-loader.service` unit if it is not already enabled and active.
 
 `steamos-extension-loader.service`, among other things, will start and enable `steamos-extension-loader-installer.service` and `systemd-sysext.service`, thus ensuring that `steamos-extension-loader.raw` updates get copied up into `/etc`.
 
@@ -58,7 +58,7 @@ If persistence is ever lost, it should be enough to re-run the installation comm
 
 ### Unit Files
 
-The loader, in addition to persistence, also ensures that services from other extensions are enabled and loaded. This is the advantage of `steamos-extension-loader`, as `systemd-sysext` provides no equivalent mechanism (at least as far as this author was able to determine; *please* correct me if I have overlooked anything here).
+`steamos-extension-loader.service`, in addition to helping with persistence, also ensures that services from other extensions are enabled and loaded. This is the advantage of `steamos-extension-loader.service`, as `systemd-sysext.service` provides no equivalent mechanism (at least as far as this author was able to determine; *please* correct me if I have overlooked anything here).
 
 The algorithm it uses to enable units is very straightforward:
 
