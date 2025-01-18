@@ -64,11 +64,11 @@ The algorithm it uses to enable units is very straightforward:
 
 1. Any system unit file starting with `steamos-extension-` is passed to `systemctl preset`. After that, it checks if the unit is enabled. If it is enabled and it is not yet running, `steamos-extension-loader.service` starts the unit. This allows extension authors to decide which services and timers should be loaded by providing a correct systemd-preset file.
 
-2. User unit files are treated differently. Systemd does not have an equivalent to systemd preset for user units; thus, every single unit is simply passed to `systemctl enable --global`, so that they will be loaded during logon. To control which units are running, you must ensure a correct install target. If you have a service fired by a timer that shouldn't run otherwise, omit the entire `[Install]` section in the unit file.
+2. User unit files are treated differently. Systemd does not have an equivalent to systemd preset for user units; thus, every single unit is simply passed to `systemctl enable --global`, so that they will be loaded during logon. To control which units are running, you must ensure a correct install target. If you have a service fired by a timer that shouldn't run otherwise, omit the entire `[Install]` section in the unit file. User units also need to start with `steamos-extension-` to be considered for loading.
 
 ### System Updates
 
-The SteamOS update mechanism does not like systemd-sysext to be running, as it creates a read-only overlayfs on `/usr`. To solve this problem, `systemd-sysext.service` unloads itself when `rauc.service` (the update service) is started. Unfortunately, `rauc.service` does not unload itself until reboot, which means all extensions are unloaded until reboot. Updates that occur during boot-up do not conflict with systemd-sysext, as they occur earlier in the boot process.
+The SteamOS update mechanism does not like `systemd-sysext.service` to be running, as it creates a read-only overlayfs on `/usr`. To solve this problem, `systemd-sysext.service` unloads itself when `rauc.service` (the update service) is started. Unfortunately, `rauc.service` does not unload itself until reboot, which means all extensions are unloaded until reboot. Updates that occur during boot-up do not conflict with `systemd-sysext.service`, as only steam client updates can apply during boot-up.
 
 ## Extensions
 
