@@ -12,6 +12,12 @@ For documentation on how to build systemd-sysext extensions, please see here: ht
 
 The rest of this README.md will focus on the specific differences needed to use this extension system wrapper.
 
+## Source Code
+
+All the `.raw` files are just squashfs images. They can be extracted by 7z or mounted on linux, and are thus self-documenting.
+
+Regardless, their source code can also be interrogated [here](https://github.com/MiningMarsh/steamos-extension-examples).
+
 ## steamos-extension-loader
 
 The only required extension is provided by `steamos-extension-loader`.
