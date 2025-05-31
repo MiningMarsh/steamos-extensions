@@ -74,6 +74,10 @@ The SteamOS update mechanism does not like `systemd-sysext.service` to be runnin
 
 Installing additional extensions is as easy as placing them in `/var/lib/extensions` and rebooting.
 
+Extensions can be uninstalled by removing their extension file from `/var/lib/extensions`, and rebooting. It is safe to leave the loader installed even if all extensions are uninstalled, it just won't do anything.
+
+Some extensions may change grub boot options in order to add kernel parameters. You can permanently uninstall the changes they make by removing the extension, swapping from stable to beta branch or vice versa, and then switching back. SteamOS will regenerate the boot configuration during upgrades, overwriting the changes the extensions made. Make sure that the extension file is removed before the changes in branch take place.
+
 A number of example extensions that I personally use are included in this repo, with explanations of what they do in the following sections.
 
 ### steamos-extension-clean-games
