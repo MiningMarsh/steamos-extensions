@@ -164,3 +164,12 @@ This extension installs and runs the `irqbalance` service, which automatically b
 ### steamos-extension-preload
 
 This extension  installs the `preload` service. `preload` attempts to minimize system latency by pre-caching commonly loaded files. A state file will be left at `/var/lib/preload.state` if you uninstall this extension. The state file is minimal in size (under a megabyte typically).
+
+### steamos-extension-hibernate-after-sleep
+
+This extension enables hibernate-after-sleep functionality, automatically hibernating the Steam Deck after being suspended for a configurable period (default: 60 minutes). It changes also changes the swap file (default: 20GB), configures GRUB with resume parameters, and fixes Bluetooth issues after resume.
+
+This code was based off of the following publication: https://github.com/nazar256/publications/blob/main/guides/steam-deck-hibernation.md
+
+To configure, copy `/usr/share/doc/steamos-extension-hibernate-after-sleep/example-config` to `/home/deck/.config/hibernate-after-sleep`, edit `HibernateDelaySec` (e.g., "30min", "2h") and `TargetSwapFileSizeInGbs` (e.g., 10, 30), and run `sudo /usr/sbin/steamos-extension-hibernate-after-sleep-setup`. Changes require a reboot.
+Additionally, this script copies an uninstaller to /home/deck/.bin for easy removal should you want to turn the extension off, simply run `sh /home/deck/.bin/steamos-extension-hibernate-after-sleep-uninstall.sh`
