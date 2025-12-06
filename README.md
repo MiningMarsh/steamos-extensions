@@ -39,8 +39,7 @@ Some extensions may change grub boot options in order to add kernel parameters. 
 
 ### System Updates
 
-The SteamOS update mechanism does not like `systemd-sysext.service` to be running, as it creates a read-only overlayfs on `/usr`. To solve this problem, `systemd-sysext.service` unloads itself when `rauc.service` (the update service) is started. Unfortunately, `rauc.service` does not unload itself until reboot, which means all extensions are unloaded until reboot. Updates that occur during boot-up do not conflict with `systemd-sysext.service`, as only steam client updates can apply during boot-up.
-
+Due to technical limitations, extensions have to be unloaded before system updates are applied. They won't be reloaded until after the reboot applying the update occurs. This only applies to system updates that occur during shutdown; steam client updates during boot don't cause any issues.
 
 ## Extensions
 
