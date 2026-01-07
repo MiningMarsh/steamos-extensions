@@ -1,3 +1,6 @@
+# WARNING
+SteamOS 3.9 currently will not boot with these extensions, see [here](https://github.com/MiningMarsh/steamos-extensions/issues/5) for details and recovery instructions if your steam deck won't boot.
+
 # A SteamOS Extension System and a Collection of SteamOS Extensions
 
 This repo documents and provides an example set of extensions that utilize the 
